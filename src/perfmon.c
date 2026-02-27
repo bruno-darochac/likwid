@@ -85,6 +85,7 @@
 #include <perfmon_a57.h>
 #include <perfmon_a15.h>
 #include <perfmon_tigerlake.h>
+#include <perfmon_meteorlake.h>
 #include <perfmon_icelake.h>
 #include <perfmon_sapphirerapids.h>
 #include <perfmon_emeraldrapids.h>
@@ -1207,6 +1208,15 @@ perfmon_init_maps(void)
                     perfmon_numCoreCounters = perfmon_numCoreCountersTigerlake;
                     translate_types = default_translate_types;
                     break;
+                case METEORLAKE:
+                    box_map = meteorlake_box_map;
+                    eventHash = meteorlake_arch_events;
+                    counter_map = meteorlake_counter_map;
+                    perfmon_numArchEvents = perfmon_numArchEventsMeteorlake;
+                    perfmon_numCounters = perfmon_numCountersMeteorlake;
+                    perfmon_numCoreCounters = perfmon_numCoreCountersMeteorlake;
+                    translate_types = default_translate_types;
+                    break;
                 case ICELAKE1:
                 case ICELAKE2:
                 case ROCKETLAKE:
@@ -1977,6 +1987,17 @@ perfmon_init_funcs(int* init_power, int* init_temp)
                     perfmon_readCountersThread = perfmon_readCountersThread_tigerlake;
                     perfmon_setupCountersThread = perfmon_setupCounterThread_tigerlake;
                     perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_tigerlake;
+                    break;
+                
+                case METEORLAKE:
+                    initialize_power = TRUE;
+                    initialize_thermal = TRUE;
+                    initThreadArch = perfmon_init_meteorlake;
+                    perfmon_startCountersThread = perfmon_startCountersThread_meteorlake;
+                    perfmon_stopCountersThread = perfmon_stopCountersThread_meteorlake;
+                    perfmon_readCountersThread = perfmon_readCountersThread_meteorlake;
+                    perfmon_setupCountersThread = perfmon_setupCounterThread_meteorlake;
+                    perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_meteorlake;
                     break;
 
                 case SAPPHIRERAPIDS:

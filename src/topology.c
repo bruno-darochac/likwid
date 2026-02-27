@@ -98,6 +98,7 @@ static const char* sapphire_rapids_str = "Intel SapphireRapids processor";
 static const char* emerald_rapids_str = "Intel EmeraldRapids processor";
 static const char* granite_rapids_str = "Intel GraniteRapids processor";
 static const char* sierra_forrest_str = "Intel SierraForrest processor";
+static const char* meteorlake_str = "Intel MeteorLake processor";
 //static const char* snowridgex_str = "Intel SnowridgeX processor";
 
 static const char* barcelona_str = "AMD K10 (Barcelona) processor";
@@ -181,6 +182,7 @@ static const char* short_rocketlake = "RKL";
 static const char* short_icelakesp = "ICX";
 static const char* short_granite_rapids = "GNR";
 static const char* short_sierra_forrest = "SRF";
+static const char* short_meteorlake = "MTL";
 //static const char* short_snowridgex = "SNR";
 
 static const char* short_k8 = "k8";
@@ -1045,6 +1047,12 @@ topology_setName(void)
                     //cpuid_info.supportClientmem = 1;
                     cpuid_info.name = tigerlake_str;
                     cpuid_info.short_name = short_tigerlake;
+                    break;
+
+                case METEORLAKE:
+                    cpuid_info.supportClientmem = 1;
+                    cpuid_info.name = meteorlake_str;
+                    cpuid_info.short_name = short_meteorlake;
                     break;
 
                 case SAPPHIRERAPIDS:
