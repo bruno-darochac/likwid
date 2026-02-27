@@ -1050,6 +1050,7 @@ topology_setName(void)
                     break;
 
                 case METEORLAKE:
+                case METEORLAKE2:
                     cpuid_info.supportClientmem = 1;
                     cpuid_info.name = meteorlake_str;
                     cpuid_info.short_name = short_meteorlake;

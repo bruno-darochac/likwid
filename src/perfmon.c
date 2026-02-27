@@ -1209,6 +1209,7 @@ perfmon_init_maps(void)
                     translate_types = default_translate_types;
                     break;
                 case METEORLAKE:
+                case METEORLAKE2:
                     box_map = meteorlake_box_map;
                     eventHash = meteorlake_arch_events;
                     counter_map = meteorlake_counter_map;
@@ -1990,6 +1991,7 @@ perfmon_init_funcs(int* init_power, int* init_temp)
                     break;
                 
                 case METEORLAKE:
+                case METEORLAKE2:
                     initialize_power = TRUE;
                     initialize_thermal = TRUE;
                     initThreadArch = perfmon_init_meteorlake;

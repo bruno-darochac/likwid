@@ -121,6 +121,7 @@ struct topology_functions {
 #define GRANITERAPIDS        0xADU
 #define SIERRAFORREST        0xAFU
 #define METEORLAKE           0xBAU
+#define METEORLAKE2          0xAAU
 
 /* Intel MIC */
 #define XEON_PHI           0x01U
