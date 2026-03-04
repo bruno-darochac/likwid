@@ -1216,6 +1216,7 @@ perfmon_init_maps(void)
                     perfmon_numArchEvents = perfmon_numArchEventsMeteorlake;
                     perfmon_numCounters = perfmon_numCountersMeteorlake;
                     perfmon_numCoreCounters = perfmon_numCoreCountersMeteorlake;
+                    // perfmon_numUncoreCounters = NUM_COUNTERS_UNCORE_METEORLAKE;
                     translate_types = default_translate_types;
                     break;
                 case ICELAKE1:

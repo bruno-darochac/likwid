@@ -33,6 +33,7 @@
 
 static int perfmon_numCountersMeteorlake = NUM_COUNTERS_METEORLAKE;
 static int perfmon_numCoreCountersMeteorlake = NUM_COUNTERS_CORE_METEORLAKE;
+static int perfmon_numUncoreCountersMeteorlake = NUM_COUNTERS_UNCORE_METEORLAKE;
 static int perfmon_numArchEventsMeteorlake = NUM_ARCH_EVENTS_METEORLAKE;
 
 int perfmon_init_meteorlake(int cpu_id)
