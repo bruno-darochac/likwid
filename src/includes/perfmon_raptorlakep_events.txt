@@ -1,8 +1,8 @@
 # =======================================================================================
 #
-#      Filename:  perfmon_meteorlake_events.txt
+#      Filename:  perfmon_raptorlakep_events.txt
 #
-#      Description:  Event list for Intel meteorlake
+#      Description:  Event list for Intel raptorlakep
 #
 #      Version:   <VERSION>
 #      Released:  <DATE>

@@ -85,7 +85,7 @@
 #include <perfmon_a57.h>
 #include <perfmon_a15.h>
 #include <perfmon_tigerlake.h>
-#include <perfmon_meteorlake.h>
+#include <perfmon_raptorlakep.h>
 #include <perfmon_icelake.h>
 #include <perfmon_sapphirerapids.h>
 #include <perfmon_emeraldrapids.h>
@@ -1208,15 +1208,14 @@ perfmon_init_maps(void)
                     perfmon_numCoreCounters = perfmon_numCoreCountersTigerlake;
                     translate_types = default_translate_types;
                     break;
-                case METEORLAKE:
-                case METEORLAKE2:
-                    box_map = meteorlake_box_map;
-                    eventHash = meteorlake_arch_events;
-                    counter_map = meteorlake_counter_map;
-                    perfmon_numArchEvents = perfmon_numArchEventsMeteorlake;
-                    perfmon_numCounters = perfmon_numCountersMeteorlake;
-                    perfmon_numCoreCounters = perfmon_numCoreCountersMeteorlake;
-                    // perfmon_numUncoreCounters = NUM_COUNTERS_UNCORE_METEORLAKE;
+                case RAPTORLAKEP:
+                    box_map = raptorlakep_box_map;
+                    eventHash = raptorlakep_arch_events;
+                    counter_map = raptorlakep_counter_map;
+                    perfmon_numArchEvents = perfmon_numArchEventsRaptorlakeP;
+                    perfmon_numCounters = perfmon_numCountersRaptorlakeP;
+                    perfmon_numCoreCounters = perfmon_numCoreCountersRaptorlakeP;
+                    // perfmon_numUncoreCounters = NUM_COUNTERS_UNCORE_RAPTORLAKEP;
                     translate_types = default_translate_types;
                     break;
                 case ICELAKE1:
@@ -1991,16 +1990,15 @@ perfmon_init_funcs(int* init_power, int* init_temp)
                     perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_tigerlake;
                     break;
                 
-                case METEORLAKE:
-                case METEORLAKE2:
+                case RAPTORLAKEP:
                     initialize_power = TRUE;
                     initialize_thermal = TRUE;
-                    initThreadArch = perfmon_init_meteorlake;
-                    perfmon_startCountersThread = perfmon_startCountersThread_meteorlake;
-                    perfmon_stopCountersThread = perfmon_stopCountersThread_meteorlake;
-                    perfmon_readCountersThread = perfmon_readCountersThread_meteorlake;
-                    perfmon_setupCountersThread = perfmon_setupCounterThread_meteorlake;
-                    perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_meteorlake;
+                    initThreadArch = perfmon_init_raptorlakep;
+                    perfmon_startCountersThread = perfmon_startCountersThread_raptorlakep;
+                    perfmon_stopCountersThread = perfmon_stopCountersThread_raptorlakep;
+                    perfmon_readCountersThread = perfmon_readCountersThread_raptorlakep;
+                    perfmon_setupCountersThread = perfmon_setupCounterThread_raptorlakep;
+                    perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_raptorlakep;
                     break;
 
                 case SAPPHIRERAPIDS:

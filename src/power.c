@@ -134,8 +134,7 @@ power_init(int cpuId)
                 case ICELAKE1:
                 case ICELAKE2:
                 case ROCKETLAKE:
-                case METEORLAKE:
-                case METEORLAKE2:
+                case RAPTORLAKEP:
                     power_info.hasRAPL = 1;
                     numDomains = NUM_POWER_DOMAINS;
                     break;

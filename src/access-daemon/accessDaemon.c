@@ -3698,7 +3698,7 @@ int main(void)
 			 (model == ROCKETLAKE) ||
 			 (model == TIGERLAKE1) ||
 			 (model == TIGERLAKE2) ||
-             (model == METEORLAKE))
+             (model == RAPTORLAKEP))
                 {
                     allowed = allowed_icl;
                     isClientMem = 1;

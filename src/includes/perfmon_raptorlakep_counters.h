@@ -1,9 +1,9 @@
 /*
  * =======================================================================================
  *
- *      Filename:  perfmon_meteorlake_counters.h
+ *      Filename:  perfmon_raptorlakep_counters.h
  *
- *      Description:  Counter Header File of perfmon module for Intel meteorlake.
+ *      Description:  Counter Header File of perfmon module for Intel raptorlakep.
  *
  *      Version:   <VERSION>
  *      Released:  <DATE>
@@ -28,29 +28,29 @@
  * =======================================================================================
  */
 
-#ifndef PERFMON_METEORLAKE_COUNTERS_H
-#define PERFMON_METEORLAKE_COUNTERS_H
+#ifndef PERFMON_RAPTORLAKEP_COUNTERS_H
+#define PERFMON_RAPTORLAKEP_COUNTERS_H
 
-#define NUM_COUNTERS_METEORLAKE        20
-#define NUM_COUNTERS_CORE_METEORLAKE   15  /* FIXED(3) + PMC(6) + TMP(1) + VTG(1) + TMA(4) */
-#define NUM_COUNTERS_UNCORE_METEORLAKE  5  /* RAPL power */
+#define NUM_COUNTERS_RAPTORLAKEP        20
+#define NUM_COUNTERS_CORE_RAPTORLAKEP   15  /* FIXED(3) + PMC(6) + TMP(1) + VTG(1) + TMA(4) */
+#define NUM_COUNTERS_UNCORE_RAPTORLAKEP  5  /* RAPL power */
 
-#define MTL_VALID_OPTIONS_FIXED EVENT_OPTION_COUNT_KERNEL_MASK
-#define MTL_VALID_OPTIONS_PMC EVENT_OPTION_EDGE_MASK|EVENT_OPTION_COUNT_KERNEL_MASK|EVENT_OPTION_INVERT_MASK|EVENT_OPTION_IN_TRANS_MASK|EVENT_OPTION_THRESHOLD_MASK
+#define RPT_VALID_OPTIONS_FIXED EVENT_OPTION_COUNT_KERNEL_MASK
+#define RPT_VALID_OPTIONS_PMC EVENT_OPTION_EDGE_MASK|EVENT_OPTION_COUNT_KERNEL_MASK|EVENT_OPTION_INVERT_MASK|EVENT_OPTION_IN_TRANS_MASK|EVENT_OPTION_THRESHOLD_MASK
 
-static RegisterMap meteorlake_counter_map[NUM_COUNTERS_METEORLAKE] = {
+static RegisterMap raptorlakep_counter_map[NUM_COUNTERS_RAPTORLAKEP] = {
     /* Fixed Counters: instructions retired, cycles unhalted core, reference cycles */
-    {"FIXC0", PMC0,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR0, 0, 0, MTL_VALID_OPTIONS_FIXED},
-    {"FIXC1", PMC1,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR1, 0, 0, MTL_VALID_OPTIONS_FIXED},
-    {"FIXC2", PMC2,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR2, 0, 0, MTL_VALID_OPTIONS_FIXED},
+    {"FIXC0", PMC0,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR0, 0, 0, RPT_VALID_OPTIONS_FIXED},
+    {"FIXC1", PMC1,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR1, 0, 0, RPT_VALID_OPTIONS_FIXED},
+    {"FIXC2", PMC2,  FIXED,  MSR_PERF_FIXED_CTR_CTRL, MSR_PERF_FIXED_CTR2, 0, 0, RPT_VALID_OPTIONS_FIXED},
 
     /* Programmable PMC Counters: 6 x 48bit wide (CPUID.0xA says 6) */
-    {"PMC0",  PMC3,  PMC,    MSR_PERFEVTSEL0, MSR_PMC0, 0, 0, MTL_VALID_OPTIONS_PMC},
-    {"PMC1",  PMC4,  PMC,    MSR_PERFEVTSEL1, MSR_PMC1, 0, 0, MTL_VALID_OPTIONS_PMC},
-    {"PMC2",  PMC5,  PMC,    MSR_PERFEVTSEL2, MSR_PMC2, 0, 0, MTL_VALID_OPTIONS_PMC | EVENT_OPTION_IN_TRANS_ABORT_MASK},
-    {"PMC3",  PMC6,  PMC,    MSR_PERFEVTSEL3, MSR_PMC3, 0, 0, MTL_VALID_OPTIONS_PMC},
-    {"PMC4",  PMC7,  PMC,    MSR_PERFEVTSEL4, MSR_PMC4, 0, 0, MTL_VALID_OPTIONS_PMC},
-    {"PMC5",  PMC8,  PMC,    MSR_PERFEVTSEL5, MSR_PMC5, 0, 0, MTL_VALID_OPTIONS_PMC},
+    {"PMC0",  PMC3,  PMC,    MSR_PERFEVTSEL0, MSR_PMC0, 0, 0, RPT_VALID_OPTIONS_PMC},
+    {"PMC1",  PMC4,  PMC,    MSR_PERFEVTSEL1, MSR_PMC1, 0, 0, RPT_VALID_OPTIONS_PMC},
+    {"PMC2",  PMC5,  PMC,    MSR_PERFEVTSEL2, MSR_PMC2, 0, 0, RPT_VALID_OPTIONS_PMC | EVENT_OPTION_IN_TRANS_ABORT_MASK},
+    {"PMC3",  PMC6,  PMC,    MSR_PERFEVTSEL3, MSR_PMC3, 0, 0, RPT_VALID_OPTIONS_PMC},
+    {"PMC4",  PMC7,  PMC,    MSR_PERFEVTSEL4, MSR_PMC4, 0, 0, RPT_VALID_OPTIONS_PMC},
+    {"PMC5",  PMC8,  PMC,    MSR_PERFEVTSEL5, MSR_PMC5, 0, 0, RPT_VALID_OPTIONS_PMC},
 
     /* Temperature Sensor */
     {"TMP0",  PMC9,  THERMAL, 0, IA32_THERM_STATUS, 0, 0, EVENT_OPTION_NONE_MASK},
@@ -72,7 +72,7 @@ static RegisterMap meteorlake_counter_map[NUM_COUNTERS_METEORLAKE] = {
     {"PWR4",  PMC19, POWER,   0, MSR_PLATFORM_ENERGY_STATUS, 0, 0, EVENT_OPTION_NONE_MASK},
 };
 
-static BoxMap meteorlake_box_map[NUM_UNITS] = {
+static BoxMap raptorlakep_box_map[NUM_UNITS] = {
     [PMC]     = {MSR_PERF_GLOBAL_CTRL, MSR_V4_PERF_GLOBAL_STATUS, MSR_V4_PERF_GLOBAL_STATUS_RESET, 0, 0, 0, 48, 0, 0},
     [FIXED]   = {MSR_PERF_GLOBAL_CTRL, MSR_V4_PERF_GLOBAL_STATUS, MSR_V4_PERF_GLOBAL_STATUS_RESET, 0, 0, 0, 48, 0, 0},
     [THERMAL] = {0, 0, 0, 0, 0, 0, 8,  0, 0},
@@ -81,9 +81,9 @@ static BoxMap meteorlake_box_map[NUM_UNITS] = {
     [METRICS] = {0, MSR_V4_PERF_GLOBAL_STATUS, MSR_V4_PERF_GLOBAL_STATUS, 48, 0, 0, 8, 0, 0},
 };
 
-static PciDevice meteorlake_pci_devices[MAX_NUM_PCI_DEVICES] = {
+static PciDevice raptorlakep_pci_devices[MAX_NUM_PCI_DEVICES] = {
     [MSR_DEV]              = {NODEVTYPE, "",     "MSR",             "",      0,   0},
     [PCI_IMC_DEVICE_0_CH_0]= {IMC,       "00.0", "MMAP_IMC_DEVICE", "MBOX0", 0x0, 0},
 };
 
-#endif //PERFMON_METEORLAKE_COUNTERS_H
+#endif //PERFMON_RAPTORLAKEP_COUNTERS_H
