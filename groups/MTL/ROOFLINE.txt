@@ -1,0 +1,20 @@
+SHORT Roofline (DP) - FLOPs + memory proxy (LLC misses) for Meteor Lake P-core
+
+EVENTSET
+FIXC0  INST_RETIRED_ANY
+FIXC1  CPU_CLK_UNHALTED_THREAD
+FIXC2  CPU_CLK_UNHALTED_REF_TSC
+PMC0   FP_ARITH_INST_RETIRED_256B_PACKED_DOUBLE
+PMC1   FP_ARITH_INST_RETIRED_128B_PACKED_DOUBLE
+PMC2   FP_ARITH_INST_RETIRED_SCALAR_DOUBLE
+PMC3   LONGEST_LAT_CACHE_MISS
+
+METRICS
+Runtime (RDTSC) [s] time
+Clock [MHz]  1.E-06*(FIXC1/FIXC2)/inverseClock
+CPI  FIXC1/FIXC0
+DP [MFLOP/s]  1.0E-06*(PMC0*4.0+PMC1*2.0+PMC2)/time
+Memory data volume (proxy) [GBytes] 1.0E-09*PMC3*64.0
+Memory bandwidth (proxy) [MBytes/s] 1.0E-06*PMC3*64.0/time
+Operational intensity (proxy) [FLOP/Byte] (PMC0*4.0+PMC1*2.0+PMC2)/(PMC3*64.0)
+Vectorization ratio [%] 100*(PMC0+PMC1)/(PMC0+PMC1+PMC2)

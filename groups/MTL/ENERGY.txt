@@ -1,0 +1,19 @@
+SHORT Energy (RAPL)
+
+EVENTSET
+PWR0  PWR_PKG_ENERGY
+PWR1  PWR_PP0_ENERGY
+PWR2  PWR_PP1_ENERGY
+PWR4  PWR_PLATFORM_ENERGY
+
+METRICS
+Runtime (RDTSC) [s] time
+Energy PKG [J]        PWR0
+Energy PP0 [J]        PWR1
+Energy PP1 [J]        PWR2
+Energy Platform [J]   PWR4
+Package power avg [W]                        (PWR0/time)
+PP0 (cores) power avg [W]                    (PWR1/time)
+PP1 (uncore/gpu) power avg [W]               (PWR2/time)
+DRAM power avg [W]                           (PWR3/time)
+Platform power avg [W]                       (PWR4/time)

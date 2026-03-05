@@ -1,9 +1,9 @@
 /*
  * =======================================================================================
  *
- *      Filename:  perfmon_raptorlakep.h
+ *      Filename:  perfmon_meteorlakep.h
  *
- *      Description:  Header File of perfmon module for Intel raptorlakep.
+ *      Description:  Header File of perfmon module for Intel meteorlakep.
  *
  *      Version:   <VERSION>
  *      Released:  <DATE>
@@ -28,15 +28,15 @@
  * =======================================================================================
  */
 
-#include <perfmon_raptorlakep_events.h>
-#include <perfmon_raptorlakep_counters.h>
+#include <perfmon_meteorlakep_events.h>
+#include <perfmon_meteorlakep_counters.h>
 
-static int perfmon_numCountersRaptorlakeP = NUM_COUNTERS_RAPTORLAKEP;
-static int perfmon_numCoreCountersRaptorlakeP = NUM_COUNTERS_CORE_RAPTORLAKEP;
-static int perfmon_numUncoreCountersRaptorlakeP = NUM_COUNTERS_UNCORE_RAPTORLAKEP;
-static int perfmon_numArchEventsRaptorlakeP = NUM_ARCH_EVENTS_RAPTORLAKEP;
+static int perfmon_numCountersMeteorlakeP = NUM_COUNTERS_METEORLAKEP;
+static int perfmon_numCoreCountersMeteorlakeP = NUM_COUNTERS_CORE_METEORLAKEP;
+static int perfmon_numUncoreCountersMeteorlakeP = NUM_COUNTERS_UNCORE_METEORLAKEP;
+static int perfmon_numArchEventsMeteorlakeP = NUM_ARCH_EVENTS_METEORLAKEP;
 
-int perfmon_init_raptorlakep(int cpu_id)
+int perfmon_init_meteorlakep(int cpu_id)
 {
     int ret = 0;
     lock_acquire((int*) &tile_lock[affinity_thread2core_lookup[cpu_id]], cpu_id);
@@ -55,7 +55,7 @@ int perfmon_init_raptorlakep(int cpu_id)
 }
 
 
-uint32_t rpt_fixed_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
+uint32_t mtl_fixed_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
 {
     (void)cpu_id;
     uint32_t flags = (1ULL<<(1+(index*4)));
@@ -73,7 +73,7 @@ uint32_t rpt_fixed_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
     return flags;
 }
 
-int rpt_pmc_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
+int mtl_pmc_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
 {
     uint64_t flags = 0x0ULL;
     uint64_t offcore_flags = 0x0ULL;
@@ -152,7 +152,7 @@ int rpt_pmc_setup(int cpu_id, RegisterIndex index, PerfmonEvent *event)
 }
 
 
-int perfmon_setupCounterThread_raptorlakep(
+int perfmon_setupCounterThread_meteorlakep(
         int thread_id,
         PerfmonEventSet* eventSet)
 {
@@ -181,11 +181,11 @@ int perfmon_setupCounterThread_raptorlakep(
         switch (type)
         {
             case PMC:
-                rpt_pmc_setup(cpu_id, index, event);
+                mtl_pmc_setup(cpu_id, index, event);
                 break;
 
             case FIXED:
-                fixed_flags |= rpt_fixed_setup(cpu_id, index, event);
+                fixed_flags |= mtl_fixed_setup(cpu_id, index, event);
                 break;
 
             case POWER:
@@ -206,7 +206,7 @@ int perfmon_setupCounterThread_raptorlakep(
     return 0;
 }
 
-int perfmon_startCountersThread_raptorlakep(int thread_id, PerfmonEventSet* eventSet)
+int perfmon_startCountersThread_meteorlakep(int thread_id, PerfmonEventSet* eventSet)
 {
     int haveLock = 0;
     uint64_t flags = 0x0ULL;
@@ -286,7 +286,7 @@ int perfmon_startCountersThread_raptorlakep(int thread_id, PerfmonEventSet* even
     return 0;
 }
 
-int perfmon_stopCountersThread_raptorlakep(int thread_id, PerfmonEventSet* eventSet)
+int perfmon_stopCountersThread_meteorlakep(int thread_id, PerfmonEventSet* eventSet)
 {
     int haveLock = 0;
     uint64_t counter_result = 0x0ULL;
@@ -379,7 +379,7 @@ int perfmon_stopCountersThread_raptorlakep(int thread_id, PerfmonEventSet* event
     return 0;
 }
 
-int perfmon_readCountersThread_raptorlakep(int thread_id, PerfmonEventSet* eventSet)
+int perfmon_readCountersThread_meteorlakep(int thread_id, PerfmonEventSet* eventSet)
 {
     uint64_t flags = 0x0ULL;
     uint64_t uflags = 0x0ULL;
@@ -474,7 +474,7 @@ int perfmon_readCountersThread_raptorlakep(int thread_id, PerfmonEventSet* event
     return 0;
 }
 
-int perfmon_finalizeCountersThread_raptorlakep(int thread_id, PerfmonEventSet* eventSet)
+int perfmon_finalizeCountersThread_meteorlakep(int thread_id, PerfmonEventSet* eventSet)
 {
     int haveLock = 0;
     int clearPBS = 0;
