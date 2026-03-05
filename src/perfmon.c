@@ -87,6 +87,7 @@
 #include <perfmon_tigerlake.h>
 #include <perfmon_raptorlakep.h>
 #include <perfmon_meteorlakep.h>
+#include <perfmon_alderlake2.h>
 #include <perfmon_icelake.h>
 #include <perfmon_sapphirerapids.h>
 #include <perfmon_emeraldrapids.h>
@@ -1228,6 +1229,17 @@ perfmon_init_maps(void)
                     perfmon_numCoreCounters = perfmon_numCoreCountersMeteorlakeP;
                     translate_types = default_translate_types;
                     break;
+                
+                case ALDERLAKE2:
+                    box_map = alderlake2_box_map;
+                    eventHash = alderlake2_arch_events;
+                    counter_map = alderlake2_counter_map;
+                    perfmon_numArchEvents = perfmon_numArchEventsAlderLake2;
+                    perfmon_numCounters = perfmon_numCountersAlderLake2;
+                    perfmon_numCoreCounters = perfmon_numCoreCountersAlderLake2;
+                    translate_types = default_translate_types;
+                    break;
+                
                 case ICELAKE1:
                 case ICELAKE2:
                 case ROCKETLAKE:
@@ -2009,6 +2021,17 @@ perfmon_init_funcs(int* init_power, int* init_temp)
                     perfmon_readCountersThread = perfmon_readCountersThread_raptorlakep;
                     perfmon_setupCountersThread = perfmon_setupCounterThread_raptorlakep;
                     perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_raptorlakep;
+                    break;
+
+                case ALDERLAKE2:
+                    initialize_power = TRUE;
+                    initialize_thermal = TRUE;
+                    initThreadArch = perfmon_init_alderlake2;
+                    perfmon_startCountersThread = perfmon_startCountersThread_alderlake2;
+                    perfmon_stopCountersThread = perfmon_stopCountersThread_alderlake2;
+                    perfmon_readCountersThread = perfmon_readCountersThread_alderlake2;
+                    perfmon_setupCountersThread = perfmon_setupCounterThread_alderlake2;
+                    perfmon_finalizeCountersThread = perfmon_finalizeCountersThread_alderlake2;
                     break;
 
                 case METEORLAKEP:
