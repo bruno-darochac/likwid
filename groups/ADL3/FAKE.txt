@@ -1,31 +1,19 @@
-SHORT Branch prediction miss rate/ratio
+SHORT
+Test groupe DP simple
 
 EVENTSET
 FIXC0 INSTR_RETIRED_ANY
-FIXC1 CPU_CLK_UNHALTED_CORE
-FIXC2 CPU_CLK_UNHALTED_REF
-PMC0  BR_INST_RETIRED_ALL_BRANCHES
-PMC1  BR_MISP_RETIRED_ALL_BRANCHES
+FIXC1 CPU_CLK_UNHALTED_THREAD
+FIXC2 CPU_CLK_UNHALTED_REF_TSC
+PMC0 FP_ARITH_INST_RETIRED_SCALAR_DOUBLE
+PMC1 FP_ARITH_INST_RETIRED_128B_PACKED_DOUBLE
+PMC2 FP_ARITH_INST_RETIRED_256B_PACKED_DOUBLE
+PMC3 OFFCORE_REQUESTS_ALL_REQUESTS
 
 METRICS
 Runtime (RDTSC) [s] time
-Runtime unhalted [s] FIXC1*inverseClock
-Clock [MHz]  1.E-06*(FIXC1/FIXC2)/inverseClock
-CPI  FIXC1/FIXC0
-Branch rate   PMC0/FIXC0
-Branch misprediction rate  PMC1/FIXC0
-Branch misprediction ratio  PMC1/PMC0
-Instructions per branch  FIXC0/PMC0
+DP_FLOPs (PMC0 + 2*PMC1 + 4*PMC2)
+RAM_Bytes_Est (64*PMC3)
 
 LONG
-Formulas:
-Branch rate = BR_INST_RETIRED_ALL_BRANCHES/INSTR_RETIRED_ANY
-Branch misprediction rate =  BR_MISP_RETIRED_ALL_BRANCHES/INSTR_RETIRED_ANY
-Branch misprediction ratio = BR_MISP_RETIRED_ALL_BRANCHES/BR_INST_RETIRED_ALL_BRANCHES
-Instructions per branch = INSTR_RETIRED_ANY/BR_INST_RETIRED_ALL_BRANCHES
--
-The rates state how often on average a branch or a mispredicted branch occurred
-per instruction retired in total. The branch misprediction ratio sets directly
-into relation what ratio of all branch instruction where mispredicted.
-Instructions per branch is 1/branch rate.
-
+Groupe custom simple pour tester FLOPs DP et trafic memoire estime.
