@@ -3699,6 +3699,8 @@ int main(void)
 			 (model == TIGERLAKE1) ||
 			 (model == TIGERLAKE2) ||
              (model == RAPTORLAKEP) ||
+             (model == ALDERLAKE2) ||
+             (model == ALDERLAKE3) ||
              (model == METEORLAKEP))
                 {
                     allowed = allowed_icl;
