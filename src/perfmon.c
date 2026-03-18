@@ -1231,6 +1231,7 @@ perfmon_init_maps(void)
                     break;
                 
                 case ALDERLAKE2:
+                case ALDERLAKE3:
                     box_map = alderlake2_box_map;
                     eventHash = alderlake2_arch_events;
                     counter_map = alderlake2_counter_map;
@@ -2024,6 +2025,7 @@ perfmon_init_funcs(int* init_power, int* init_temp)
                     break;
 
                 case ALDERLAKE2:
+                case ALDERLAKE3:
                     initialize_power = TRUE;
                     initialize_thermal = TRUE;
                     initThreadArch = perfmon_init_alderlake2;
