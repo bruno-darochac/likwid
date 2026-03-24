@@ -3699,6 +3699,7 @@ int main(void)
 			 (model == TIGERLAKE1) ||
 			 (model == TIGERLAKE2) ||
              (model == RAPTORLAKEP) ||
+             (model == ALDERLAKE1) ||
              (model == ALDERLAKE2) ||
              (model == ALDERLAKE3) ||
              (model == METEORLAKEP))

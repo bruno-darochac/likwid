@@ -136,6 +136,7 @@ power_init(int cpuId)
                 case ROCKETLAKE:
                 case RAPTORLAKEP:
                 case METEORLAKEP:
+                case ALDERLAKE1:
                 case ALDERLAKE2:
                 case ALDERLAKE3:
                     power_info.hasRAPL = 1;
