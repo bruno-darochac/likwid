@@ -68,6 +68,7 @@
 #include <perfmon_emeraldrapids_counters.h>
 #include <perfmon_graniterapids_counters.h>
 #include <perfmon_sierraforrest_counters.h>
+#include <perfmon_alderlake3_counters.h>
 #include <topology.h>
 #include <cpuid.h>
 #include <lock.h>
