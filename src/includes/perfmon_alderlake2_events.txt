@@ -62,8 +62,8 @@ UMASK_CPU_CLK_UNHALTED_REF_TSC_P               0x01
 EVENT_CPU_CLK_UNHALTED_THREAD_P                0x3C PMC
 UMASK_CPU_CLK_UNHALTED_THREAD_P                0x00
 
-EVENT_INST_RETIRED_ANY                         0xC0 PMC
-UMASK_INST_RETIRED_ANY                         0x00
+EVENT_INST_RETIRED_ANY_P                         0xC0 PMC
+UMASK_INST_RETIRED_ANY_P                         0x00
 
 EVENT_LONGEST_LAT_CACHE_MISS                   0x2E PMC
 UMASK_LONGEST_LAT_CACHE_MISS                   0x41

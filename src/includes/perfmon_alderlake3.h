@@ -42,15 +42,15 @@ int perfmon_init_alderlake3(int cpu_id)
     lock_acquire((int*) &tile_lock[affinity_thread2core_lookup[cpu_id]], cpu_id);
     lock_acquire((int*) &socket_lock[affinity_thread2socket_lookup[cpu_id]], cpu_id);
     ret = HPMwrite(cpu_id, MSR_DEV, MSR_PEBS_ENABLE, 0x0ULL);
-    if (ret != 0)
-    {
-        ERROR_PRINT("Cannot zero MSR_PEBS_ENABLE (0x%X)", MSR_PEBS_ENABLE);
-    }
-    ret = HPMwrite(cpu_id, MSR_DEV, MSR_PEBS_FRONTEND, 0x0ULL);
-    if (ret != 0)
-    {
-        ERROR_PRINT("Cannot zero MSR_PEBS_FRONTEND (0x%X)", MSR_PEBS_FRONTEND);
-    }
+    // if (ret != 0)
+    // {
+    //     ERROR_PRINT("Cannot zero MSR_PEBS_ENABLE (0x%X)", MSR_PEBS_ENABLE);
+    // }
+    // ret = HPMwrite(cpu_id, MSR_DEV, MSR_PEBS_FRONTEND, 0x0ULL);
+    // if (ret != 0)
+    // {
+    //     ERROR_PRINT("Cannot zero MSR_PEBS_FRONTEND (0x%X)", MSR_PEBS_FRONTEND);
+    // }
     return 0;
 }
 
