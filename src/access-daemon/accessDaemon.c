@@ -3984,6 +3984,10 @@ int main(void)
             {
                 pci_devices_daemon = knl_pci_devices;
             }
+            else if ((model == ALDERLAKE3))
+            {
+                pci_devices_daemon = alderlake3_pci_devices;
+            }
             else if (isIntelUncoreDiscovery)
             {
                 pci_devices_daemon = NULL;
