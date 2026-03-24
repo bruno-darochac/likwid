@@ -1259,6 +1259,7 @@ perfmon_init_maps(void)
                     break;
 
                 case ALDERLAKE1:
+                    pci_devices = alderlake_pci_devices;
                     box_map = alderlake1_box_map;
                     eventHash = alderlake1_arch_events;
                     counter_map = alderlake1_counter_map;
@@ -1269,6 +1270,7 @@ perfmon_init_maps(void)
                     break;
                 
                 case ALDERLAKE2:
+                    pci_devices = alderlake2_pci_devices;
                     box_map = alderlake2_box_map;
                     eventHash = alderlake2_arch_events;
                     counter_map = alderlake2_counter_map;
@@ -1279,6 +1281,7 @@ perfmon_init_maps(void)
                     break;
 
                 case ALDERLAKE3:
+                    pci_devices = alderlake3_pci_devices;
                     box_map = alderlake3_box_map;
                     eventHash = alderlake3_arch_events;
                     counter_map = alderlake3_counter_map;
