@@ -2790,6 +2790,11 @@ perfmon_addEventSet(const char* eventCString)
     {
         event = &(eventSet->events[i]);
         struct bstrList* subtokens = bsplit(eventtokens->entry[i],':');
+        fprintf(stderr, "\n[ADD] raw token='%s'\n", bdata(eventtokens->entry[i]));
+        for (int k = 0; k < subtokens->qty; k++)
+        {
+            fprintf(stderr, "      subtoken[%d]='%s'\n", k, bdata(subtokens->entry[k]));
+        }
         if (subtokens->qty < 2)
         {
             ERROR_PRINT("Cannot parse event descriptor %s", bdata(eventtokens->entry[i]));
@@ -2800,17 +2805,37 @@ perfmon_addEventSet(const char* eventCString)
         {
             if (!getIndexAndType(subtokens->entry[1], &event->index, &event->type))
             {
-                DEBUG_PRINT(DEBUGLEV_INFO, "WARN: Counter %s not defined for current architecture", bdata(subtokens->entry[1]));
+                fprintf(stderr, "[FAIL] getIndexAndType counter='%s' not defined for current architecture\n",
+                        bdata(subtokens->entry[1]));
                 event->type = NOTYPE;
                 event->index = perfmon_numCounters+1;
                 goto past_checks;
             }
+            else
+            {
+                fprintf(stderr, "[OK]   getIndexAndType counter='%s' -> index=%d type=%d key='%s'\n",
+                        bdata(subtokens->entry[1]),
+                        event->index,
+                        event->type,
+                        counter_map[event->index].key);
+            }
 #ifndef LIKWID_USE_PERFEVENT
-            event->type = checkAccess(subtokens->entry[1], event->index, event->type, forceOverwrite);
+            RegisterType requested_type = event->type;
+            RegisterType checked_type = checkAccess(subtokens->entry[1], event->index, event->type, forceOverwrite);
+
+            fprintf(stderr,
+                    "[CHK]  checkAccess counter='%s' index=%d requested_type=%d -> checked_type=%d\n",
+                    bdata(subtokens->entry[1]),
+                    event->index,
+                    requested_type,
+                    checked_type);
+
+            event->type = checked_type;
+
             if (event->type == NOTYPE)
             {
-                DEBUG_PRINT(DEBUGLEV_INFO, "Cannot access counter register %s", bdata(subtokens->entry[1]));
-                event->type = NOTYPE;
+                fprintf(stderr, "[FAIL] checkAccess rejected counter='%s'\n",
+                        bdata(subtokens->entry[1]));
                 goto past_checks;
             }
 #else
@@ -2854,13 +2879,39 @@ perfmon_addEventSet(const char* eventCString)
 
             if (!getEvent(subtokens->entry[0], subtokens->entry[1], &event->event))
             {
-                fprintf(stderr, "WARN: Event %s not found for current architecture\n", bdata(subtokens->entry[0]));
+                fprintf(stderr, "[FAIL] getEvent event='%s' counter='%s' not found\n",
+                        bdata(subtokens->entry[0]),
+                        bdata(subtokens->entry[1]));
                 event->type = NOTYPE;
                 goto past_checks;
             }
-            if (!checkCounter(subtokens->entry[1], event->event.limit))
+            else
             {
-                fprintf(stderr, "WARN: Register %s not allowed for event %s (limit %s)\n", bdata(subtokens->entry[1]),bdata(subtokens->entry[0]),event->event.limit);
+                fprintf(stderr,
+                        "[OK]   getEvent event='%s' counter='%s' -> limit='%s' eventId=0x%X umask=0x%X cfgBits=0x%llX options=%llu\n",
+                        bdata(subtokens->entry[0]),
+                        bdata(subtokens->entry[1]),
+                        event->event.limit,
+                        event->event.eventId,
+                        event->event.umask,
+                        (unsigned long long) event->event.cfgBits,
+                        (unsigned long long) event->event.numberOfOptions);
+            }
+            int counter_ok = checkCounter(subtokens->entry[1], event->event.limit);
+
+            fprintf(stderr,
+                    "[CHK]  checkCounter counter='%s' limit='%s' -> %d\n",
+                    bdata(subtokens->entry[1]),
+                    event->event.limit,
+                    counter_ok);
+
+            if (!counter_ok)
+            {
+                fprintf(stderr,
+                        "[FAIL] checkCounter rejected counter='%s' for event='%s' (limit='%s')\n",
+                        bdata(subtokens->entry[1]),
+                        bdata(subtokens->entry[0]),
+                        event->event.limit);
                 event->type = NOTYPE;
                 goto past_checks;
             }
@@ -2925,6 +2976,23 @@ past_checks:
     {
         fixed_counters = cpuid_info.perf_num_fixed_ctr;
     }
+
+    fprintf(stderr, "\n[SUMMARY]\n");
+    fprintf(stderr, "valid_events=%d fixed_counters=%d isPerfGroup=%d\n",
+            valid_events, fixed_counters, isPerfGroup);
+    fprintf(stderr, "regTypeMask1=0x%llX\n", (unsigned long long)eventSet->regTypeMask1);
+    fprintf(stderr, "regTypeMask2=0x%llX\n", (unsigned long long)eventSet->regTypeMask2);
+    fprintf(stderr, "regTypeMask3=0x%llX\n", (unsigned long long)eventSet->regTypeMask3);
+    fprintf(stderr, "regTypeMask4=0x%llX\n", (unsigned long long)eventSet->regTypeMask4);
+    fprintf(stderr, "regTypeMask5=0x%llX\n", (unsigned long long)eventSet->regTypeMask5);
+    fprintf(stderr, "regTypeMask6=0x%llX\n", (unsigned long long)eventSet->regTypeMask6);
+    fprintf(stderr, "regTypeMask7=0x%llX\n", (unsigned long long)eventSet->regTypeMask7);
+    fprintf(stderr, "regTypeMask8=0x%llX\n", (unsigned long long)eventSet->regTypeMask8);
+    fprintf(stderr, "regTypeMask9=0x%llX\n", (unsigned long long)eventSet->regTypeMask9);
+    fprintf(stderr, "cpuid_info.perf_num_fixed_ctr=%d perfmon_numCounters=%d perfmon_numCoreCounters=%d\n",
+            cpuid_info.perf_num_fixed_ctr,
+            perfmon_numCounters,
+            perfmon_numCoreCounters);
 
     if (((valid_events > fixed_counters) || isPerfGroup) &&
         ((eventSet->regTypeMask1 != 0x0ULL) ||
