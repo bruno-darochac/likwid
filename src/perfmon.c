@@ -822,24 +822,50 @@ perfmon_check_counter_map(int cpu_id)
         }
 #ifndef LIKWID_USE_PERFEVENT
         DEBUG_PRINT(DEBUGLEV_DEVELOP, "Counter %s at pos %d with dev %s (%d) %d", counter_map[i].key, i, pci_device_names[counter_map[i].device], counter_map[i].device, cpu_id);
-        if (HPMcheck(counter_map[i].device, cpu_id))
-        {
-            uint32_t reg = counter_map[i].configRegister;
-            uint64_t tmp = 0x0ULL;
-            if (reg == 0x0U)
-                reg = counter_map[i].counterRegister;
-            int err = HPMread(cpu_id, counter_map[i].device, reg, &tmp);
-            if (err)
-            {
-                counter_map[i].type = NOTYPE;
-                counter_map[i].optionMask = 0x0ULL;
-            }
-        }
-        else
-        {
-            counter_map[i].type = NOTYPE;
-            counter_map[i].optionMask = 0x0ULL;
-        }
+        fprintf(stderr,
+        "[MAPCHK] i=%d key=%s type=%d device=%d cfg=0x%X ctr=0x%X cpu=%d\n",
+        i,
+        counter_map[i].key,
+        counter_map[i].type,
+        counter_map[i].device,
+        counter_map[i].configRegister,
+        counter_map[i].counterRegister,
+        cpu_id);
+
+int ok = HPMcheck(counter_map[i].device, cpu_id);
+fprintf(stderr, "[MAPCHK]   HPMcheck(device=%d,cpu=%d) -> %d\n",
+        counter_map[i].device, cpu_id, ok);
+
+if (ok)
+{
+    uint32_t reg = counter_map[i].configRegister;
+    uint64_t tmp = 0x0ULL;
+
+    if (reg == 0x0U)
+        reg = counter_map[i].counterRegister;
+
+    int err = HPMread(cpu_id, counter_map[i].device, reg, &tmp);
+    fprintf(stderr,
+            "[MAPCHK]   HPMread(dev=%d, reg=0x%X) -> err=%d value=0x%llX\n",
+            counter_map[i].device,
+            reg,
+            err,
+            (unsigned long long)tmp);
+
+    if (err)
+    {
+        fprintf(stderr, "[MAPCHK]   INVALIDATING %s\n", counter_map[i].key);
+        counter_map[i].type = NOTYPE;
+        counter_map[i].optionMask = 0x0ULL;
+    }
+}
+else
+{
+    fprintf(stderr, "[MAPCHK]   HPMcheck failed, invalidating %s\n",
+            counter_map[i].key);
+    counter_map[i].type = NOTYPE;
+    counter_map[i].optionMask = 0x0ULL;
+}
 #else
         struct stat st;
         struct bstrList* folders = NULL;
